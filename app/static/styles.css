@@ -91,3 +91,49 @@ header {
   border-radius: 6px;
   overflow-y: auto;
 }
+
+/* Contenedor general */
+#resultados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+/* Tarjeta tipo placeholder */
+.tarjeta {
+  background-color: #fffefc;
+  border: 1px solid #f4e5c1;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  padding: 16px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Título + badge */
+.tarjeta-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Badge rojo */
+.badge {
+  background-color: #f55b5b;
+  color: white;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+/* Imagen */
+.tarjeta img {
+  width: 100%;
+  border-radius: 8px;
+  margin: 10px 0;
+  object-fit: cover;
+}

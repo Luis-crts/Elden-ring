@@ -3,4 +3,5 @@ from flask import Flask
 
 app = Flask(__name__)
 
-from app import routes  # importa las rutas después de crear la app
+from app.routes import register_routes
+register_routes(app)
