@@ -31,3 +31,13 @@ def importar_npcs():
     conn.close()
 
     return jsonify({"mensaje": "NPCs importados correctamente", "cantidad": len(data)})
+
+@npcs_bp.route("/api/npcs")
+def api_npcs():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM npcs")
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return jsonify(data)

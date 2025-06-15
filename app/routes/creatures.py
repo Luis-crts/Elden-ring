@@ -31,3 +31,13 @@ def importar_creatures():
     conn.close()
 
     return jsonify({"mensaje": "Criaturas importadas correctamente", "cantidad": len(data)})
+
+@creatures_bp.route("/api/creatures")
+def api_creatures():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM creatures")
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return jsonify(data)

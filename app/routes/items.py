@@ -31,3 +31,13 @@ def importar_items():
     conn.close()
 
     return jsonify({"mensaje": "Items importados correctamente", "cantidad": len(data)})
+
+@items_bp.route("/api/items")
+def api_items():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM items")
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return jsonify(data)

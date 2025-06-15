@@ -137,3 +137,9 @@ header {
   margin: 10px 0;
   object-fit: cover;
 }
+
+.filtro-activo {
+  background-color: #9c83c8 !important;
+  color: white !important;
+  font-weight: bold;
+}
