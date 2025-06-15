@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Elden Ring</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    .busqueda form {
+      display: flex;
+      width: 100%;
+      gap: 8px;
+    }
+    .busqueda input[type="text"] {
+      flex: 1;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+    .busqueda button {
+      padding: 8px 16px;
+      background-color: #6d1f4f;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .busqueda button:hover {
+      background-color: #56153f;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Guía de ubicaciones del Elden Ring
+  </header>
+
+  <div class="busqueda">
+    <form id="formBusqueda">
+      <input type="text" id="barraBusqueda" placeholder="Buscar...">
+      <button type="submit">Buscar</button>
+    </form>
+  </div>
+
+  <div class="orden">
+    <label for="ordenSelect">Ordenar por:</label>
+    <select id="ordenSelect">
+      <option value="az">Nombre (A-Z)</option>
+      <option value="za">Nombre (Z-A)</option>
+    </select>
+  </div>
+
+  <div class="filtros">
+    <button onclick="filtrar('bosses')">Jefes</button>
+    <button onclick="filtrar('items')">Objetos</button>
+    <button onclick="filtrar('creatures')">Monstruos</button>
+    <button onclick="filtrar('npcs')">NPC</button>
+  </div>
+
+  <div class="contenido" id="resultados">
+    <!-- Aquí se mostrarán los datos -->
+  </div>
+
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
