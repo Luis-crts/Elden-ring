@@ -1,36 +1,50 @@
-import { cargarBosses, cargarItems, cargarCreatures, cargarNpcs } from './filtros.js';
+import { renderizar } from './filtros.js';
 
-document.addEventListener("DOMContentLoaded", () => {
-  cargarBosses(); // carga inicial
-  marcarActivo("jefes");
+let ultimoTipo = "jefe";
+let ultimoData = [];
 
-  document.querySelector("button[data-tipo='jefes']").addEventListener("click", () => {
-    cargarBosses();
-    marcarActivo("jefes");
-  });
+document.addEventListener("DOMContentLoaded", async () => {
+  const data = await fetchData("/api/bosses");
+  actualizarVista(data, "jefe");
+});
 
-  document.querySelector("button[data-tipo='objetos']").addEventListener("click", () => {
-    cargarItems();
-    marcarActivo("objetos");
-  });
-
-  document.querySelector("button[data-tipo='monstruos']").addEventListener("click", () => {
-    cargarCreatures();
-    marcarActivo("monstruos");
-  });
-
-  document.querySelector("button[data-tipo='npc']").addEventListener("click", () => {
-    cargarNpcs();
-    marcarActivo("npc");
+document.querySelectorAll("button[data-tipo]").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const tipo = btn.getAttribute("data-tipo");
+    const rutas = {
+      jefe: "/api/bosses",
+      objeto: "/api/items",
+      monstruo: "/api/creatures",
+      npc: "/api/npcs"
+    };
+    const data = await fetchData(rutas[tipo]);
+    actualizarVista(data, tipo);
   });
 });
 
-function marcarActivo(tipo) {
-  const botones = document.querySelectorAll("button[data-tipo]");
-  botones.forEach(btn => btn.classList.remove("filtro-activo"));
-
-  const botonActivo = document.querySelector(`button[data-tipo='${tipo}']`);
-  if (botonActivo) {
-    botonActivo.classList.add("filtro-activo");
+document.getElementById("ordenSelect").addEventListener("change", () => {
+  if (ultimoData.length > 0) {
+    renderizar(ultimoData, document.getElementById("resultados"), ultimoTipo);
   }
+});
+
+function marcarActivo(tipo) {
+  document.querySelectorAll("button[data-tipo]").forEach(btn => {
+    btn.classList.remove("filtro-activo");
+    if (btn.getAttribute("data-tipo") === tipo) {
+      btn.classList.add("filtro-activo");
+    }
+  });
+}
+
+function actualizarVista(data, tipo) {
+  ultimoTipo = tipo;
+  ultimoData = data;
+  marcarActivo(tipo);
+  renderizar(data, document.getElementById("resultados"), tipo);
+}
+
+async function fetchData(url) {
+  const res = await fetch(url);
+  return await res.json();
 }

@@ -30,6 +30,14 @@ export async function cargarNpcs() {
 // Agrega las demás funciones aquí...
 
 function renderizar(lista, contenedor, tipo = "jefe") {
+  const orden = document.getElementById("ordenSelect").value;
+
+  if (orden === "az") {
+    lista.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (orden === "za") {
+    lista.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
   contenedor.innerHTML = "";
 
   const badgeClases = {
@@ -60,4 +68,6 @@ function renderizar(lista, contenedor, tipo = "jefe") {
     contenedor.appendChild(card);
   });
 }
+
+export { renderizar };
 
