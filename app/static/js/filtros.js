@@ -27,7 +27,6 @@ export async function cargarNpcs() {
 }
 
 
-// Agrega las demás funciones aquí...
 
 function renderizar(lista, contenedor, tipo = "jefe") {
   const orden = document.getElementById("ordenSelect").value;

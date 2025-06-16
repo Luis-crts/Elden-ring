@@ -1,68 +1,72 @@
+// main.js
 import { renderizar } from './filtros.js';
 
-let ultimoTipo = "jefe";
+let ultimoTipo = 'jefe';
 let ultimoData = [];
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const data = await fetchData("/api/bosses");
-  actualizarVista(data, "jefe");
+// Hace un fetch y devuelve el JSON
+async function fetchData(url) {
+  const res = await fetch(url);
+  return await res.json();
+}
+
+// Marca el botón activo
+function marcarActivo(tipo) {
+  document
+    .querySelectorAll('button[data-tipo]')
+    .forEach(btn => {
+      btn.classList.toggle('filtro-activo', btn.dataset.tipo === tipo);
+    });
+}
+
+// Carga datos y refresca la vista
+function actualizarVista(data, tipo) {
+  ultimoTipo = tipo;
+  ultimoData = data;
+
+  marcarActivo(tipo);
+  renderizar(data, document.getElementById('resultados'), tipo);
+
+  console.log(`Vista '${tipo}' renderizada con ${data.length} ítems.`);
+}
+
+// Al cargar la página
+document.addEventListener('DOMContentLoaded', async () => {
+  const data = await fetchData('/api/bosses');
+  actualizarVista(data, 'jefe');
 });
 
-document.querySelectorAll("button[data-tipo]").forEach(btn => {
-  btn.addEventListener("click", async () => {
-    const tipo = btn.getAttribute("data-tipo");
+// Cuando hago click en cualquiera de los botones de filtro
+document.querySelectorAll('button[data-tipo]').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const tipo = btn.dataset.tipo;
+    if (tipo === ultimoTipo) return;            // si ya estoy en ese filtro, no recargo
     const rutas = {
-      jefe: "/api/bosses",
-      objeto: "/api/items",
-      monstruo: "/api/creatures",
-      npc: "/api/npcs"
+      jefe:     '/api/bosses',
+      objeto:   '/api/items',
+      monstruo: '/api/creatures',
+      npc:      '/api/npcs'
     };
     const data = await fetchData(rutas[tipo]);
     actualizarVista(data, tipo);
   });
 });
 
-document.getElementById("ordenSelect").addEventListener("change", () => {
-  if (ultimoData.length > 0) {
-    renderizar(ultimoData, document.getElementById("resultados"), ultimoTipo);
-  }
+// Ordenar al cambiar el select
+document.getElementById('ordenSelect').addEventListener('change', () => {
+  if (!ultimoData.length) return;
+  renderizar(ultimoData, document.getElementById('resultados'), ultimoTipo);
 });
 
-document.getElementById("barraBusqueda").addEventListener("input", (e) => {
-  const texto = e.target.value.toLowerCase().trim();
-
-  if (ultimoData.length === 0) return;
-
-  const filtrado = ultimoData.filter(obj =>
-    obj.name?.toLowerCase().includes(texto) ||
-    obj.description?.toLowerCase().includes(texto) ||
-    obj.location?.toLowerCase().includes(texto) ||
-    obj.drops?.toLowerCase().includes(texto) ||
-    obj.quote?.toLowerCase().includes(texto) ||
-    obj.type?.toLowerCase().includes(texto)
+// Filtrar en la barra de búsqueda
+document.getElementById('barraBusqueda').addEventListener('input', e => {
+  const texto = e.target.value.toLowerCase();
+  const filtrado = ultimoData.filter(o =>
+    (o.name || '').toLowerCase().includes(texto) ||
+    (o.description || '').toLowerCase().includes(texto) ||
+    (o.location || '').toLowerCase().includes(texto) ||
+    (o.drops || '').toLowerCase().includes(texto) ||
+    (o.quote || '').toLowerCase().includes(texto)
   );
-
-  renderizar(filtrado, document.getElementById("resultados"), ultimoTipo);
+  renderizar(filtrado, document.getElementById('resultados'), ultimoTipo);
 });
-
-
-function marcarActivo(tipo) {
-  document.querySelectorAll("button[data-tipo]").forEach(btn => {
-    btn.classList.remove("filtro-activo");
-    if (btn.getAttribute("data-tipo") === tipo) {
-      btn.classList.add("filtro-activo");
-    }
-  });
-}
-
-function actualizarVista(data, tipo) {
-  ultimoTipo = tipo;
-  ultimoData = data;
-  marcarActivo(tipo);
-  renderizar(data, document.getElementById("resultados"), tipo);
-}
-
-async function fetchData(url) {
-  const res = await fetch(url);
-  return await res.json();
-}
