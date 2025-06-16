@@ -1,10 +1,8 @@
-// main.js
 import { renderizar } from './filtros.js';
 
 let ultimoTipo = 'jefe';
 let ultimoData = [];
 
-// Hace un fetch y devuelve el JSON
 async function fetchData(url) {
   const res = await fetch(url);
   return await res.json();
@@ -30,7 +28,6 @@ function actualizarVista(data, tipo) {
   console.log(`Vista '${tipo}' renderizada con ${data.length} ítems.`);
 }
 
-// Al cargar la página
 document.addEventListener('DOMContentLoaded', async () => {
   const data = await fetchData('/api/bosses');
   actualizarVista(data, 'jefe');

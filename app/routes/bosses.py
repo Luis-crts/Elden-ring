@@ -1,4 +1,3 @@
-# app/routes/bosses.py
 from flask import Blueprint, jsonify
 import requests
 from app.models import get_connection
@@ -7,12 +6,10 @@ bosses_bp = Blueprint('bosses', __name__)
 
 @bosses_bp.route("/importar/bosses")
 def importar_bosses():
-    # 1) Traemos los datos de la API
     raw_data = requests.get("https://eldenring.fanapis.com/api/bosses?limit=100") \
                        .json() \
                        .get("data", [])
 
-    # 2) Dedupe en Python por 'name'
     vistos = set()
     data = []
     for boss in raw_data:
@@ -21,12 +18,10 @@ def importar_bosses():
             vistos.add(nombre)
             data.append(boss)
 
-    # 3) Abrimos conexión y vaciamos la tabla
     conn   = get_connection()
     cursor = conn.cursor()
     cursor.execute("TRUNCATE TABLE bosses;")
 
-    # 4) Insertamos solo los elementos únicos
     insert_sql = """
         INSERT INTO bosses
           (id, name, image, description, location, drops, healthPoints)
@@ -47,7 +42,6 @@ def importar_bosses():
     cursor.close()
     conn.close()
 
-    # 5) Devolvemos un JSON válido
     return jsonify({
         "mensaje":  "Jefes importados correctamente",
         "cantidad": len(data)
