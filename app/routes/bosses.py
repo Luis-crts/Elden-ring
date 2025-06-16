@@ -1,3 +1,4 @@
+# app/routes/bosses.py
 from flask import Blueprint, jsonify
 import requests
 from app.models import get_connection
@@ -6,39 +7,47 @@ bosses_bp = Blueprint('bosses', __name__)
 
 @bosses_bp.route("/importar/bosses")
 def importar_bosses():
-    url      = "https://eldenring.fanapis.com/api/bosses?limit=100"
-    response = requests.get(url)
-    data     = response.json().get("data", [])
+    # 1) Traemos los datos de la API
+    raw_data = requests.get("https://eldenring.fanapis.com/api/bosses?limit=100") \
+                       .json() \
+                       .get("data", [])
 
+    # 2) Dedupe en Python por 'name'
+    vistos = set()
+    data = []
+    for boss in raw_data:
+        nombre = boss.get("name")
+        if nombre and nombre not in vistos:
+            vistos.add(nombre)
+            data.append(boss)
+
+    # 3) Abrimos conexión y vaciamos la tabla
     conn   = get_connection()
     cursor = conn.cursor()
+    cursor.execute("TRUNCATE TABLE bosses;")
 
-    # 1) Vaciamos la tabla para no acumular duplicados
-    cursor.execute("TRUNCATE TABLE bosses")
-
-    # 2) Insertamos los 100 registros
+    # 4) Insertamos solo los elementos únicos
+    insert_sql = """
+        INSERT INTO bosses
+          (id, name, image, description, location, drops, healthPoints)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """
     for boss in data:
-        cursor.execute(
-            """
-            INSERT INTO bosses 
-              (id, name, image, description, location, drops, healthPoints)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """,
-            (
-                boss["id"],
-                boss["name"],
-                boss.get("image"),
-                boss.get("description"),
-                boss.get("location"),
-                ", ".join(boss.get("drops", [])) or None,
-                boss.get("healthPoints")
-            )
-        )
+        cursor.execute(insert_sql, (
+            boss.get("id"),
+            boss.get("name"),
+            boss.get("image"),
+            boss.get("description"),
+            boss.get("location"),
+            ", ".join(boss.get("drops", [])) or None,
+            boss.get("healthPoints")
+        ))
 
     conn.commit()
     cursor.close()
     conn.close()
 
+    # 5) Devolvemos un JSON válido
     return jsonify({
         "mensaje":  "Jefes importados correctamente",
         "cantidad": len(data)
@@ -49,11 +58,10 @@ def importar_bosses():
 def api_bosses():
     conn   = get_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM bosses")
-    data = cursor.fetchall()
+    cursor.execute("SELECT * FROM bosses;")
+    datos = cursor.fetchall()
     cursor.close()
     conn.close()
-    return jsonify(data)
-
+    return jsonify(datos)
 
     return jsonify({"mensaje": "Jefes importados correctamente", "cantidad": len(data)})
