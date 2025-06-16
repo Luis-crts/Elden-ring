@@ -1,0 +1,58 @@
+/* auth.css */
+
+/* Solo afecta login y registro */
+.auth-layout {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fdf6f1;
+  font-family: Arial, sans-serif;
+}
+
+/* Tarjeta de formulario */
+.formulario {
+  max-width: 380px; /* más angosto que antes */
+  width: 100%;
+  background: #fffefc;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Campos del formulario */
+.formulario input {
+  width: 100%;
+  padding: 6px 2px; /* menos alto */
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+/* Estilo del placeholder */
+.formulario input::placeholder {
+  font-size: 13px;
+  color: #888;
+}
+
+/* Botón */
+.formulario button {
+  width: 100%;
+  background-color: #5b2a72;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Mensajes de error */
+.mensajes {
+  margin-top: 10px;
+  color: red;
+  font-size: 14px;
+}
+
+

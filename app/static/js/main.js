@@ -28,6 +28,24 @@ document.getElementById("ordenSelect").addEventListener("change", () => {
   }
 });
 
+document.getElementById("barraBusqueda").addEventListener("input", (e) => {
+  const texto = e.target.value.toLowerCase().trim();
+
+  if (ultimoData.length === 0) return;
+
+  const filtrado = ultimoData.filter(obj =>
+    obj.name?.toLowerCase().includes(texto) ||
+    obj.description?.toLowerCase().includes(texto) ||
+    obj.location?.toLowerCase().includes(texto) ||
+    obj.drops?.toLowerCase().includes(texto) ||
+    obj.quote?.toLowerCase().includes(texto) ||
+    obj.type?.toLowerCase().includes(texto)
+  );
+
+  renderizar(filtrado, document.getElementById("resultados"), ultimoTipo);
+});
+
+
 function marcarActivo(tipo) {
   document.querySelectorAll("button[data-tipo]").forEach(btn => {
     btn.classList.remove("filtro-activo");

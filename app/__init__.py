@@ -1,7 +1,7 @@
-# app/__init__.py
 from flask import Flask
+from app.routes import register_routes
 
 app = Flask(__name__)
+app.secret_key = 'clave_secreta_segura'
 
-from app.routes import register_routes
 register_routes(app)
