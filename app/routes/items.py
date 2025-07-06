@@ -19,11 +19,11 @@ def importar_items():
             VALUES (%s, %s, %s, %s, %s, %s)
         """, (
             item.get("id"),
-            item.get("name"),
-            item.get("image"),
-            item.get("description"),
-            item.get("effect"),
-            item.get("type")
+            item.get("name") or "Desconocido",
+            item.get("image") or "Desconocido",
+            item.get("description") or "",
+            item.get("effect") or "",
+            item.get("type") or ""
         ))
 
     conn.commit()
