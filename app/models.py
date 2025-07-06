@@ -2,9 +2,9 @@ import mysql.connector
 
 def get_connection():
     return mysql.connector.connect(
-        host="127.0.0.1",
-        user="root",
-        password="root",         # si tienes contraseña, colócala aquí
+        host="database-3.ch0aakoqo1e3.us-east-1.rds.amazonaws.com",
+        user="admin",
+        password="asdfmovie",        
         database="eldenring",
         port=3306
     )
