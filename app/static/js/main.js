@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 document.querySelectorAll('button[data-tipo]').forEach(btn => {
   btn.addEventListener('click', async () => {
     const tipo = btn.dataset.tipo;
-    if (tipo === ultimoTipo) return;            // si ya estoy en ese filtro, no recargo
+    if (tipo === ultimoTipo) return;            
     const rutas = {
       jefe:     '/api/bosses',
       objeto:   '/api/items',
@@ -55,7 +55,7 @@ document.getElementById('ordenSelect').addEventListener('change', () => {
   renderizar(ultimoData, document.getElementById('resultados'), ultimoTipo);
 });
 
-// Filtrar en la barra de búsqueda
+// Filtro dinamico
 document.getElementById('barraBusqueda').addEventListener('input', e => {
   const texto = e.target.value.toLowerCase();
   const filtrado = ultimoData.filter(o =>

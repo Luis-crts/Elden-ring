@@ -56,7 +56,7 @@ function renderizar(lista, contenedor, tipo = "jefe") {
         <span class="${badgeClases[tipo]}">${tipo.charAt(0).toUpperCase() + tipo.slice(1)}</span>
       </div>
       ${e.image ? `<img src="${e.image}" alt="${e.name}">` : ""}
-      <p>${e.description || "Sin descripción disponible."}</p>
+      ${e.description ? `<p>${e.description}</p>` : ""}
       ${e.location ? `<p><strong>Ubicación:</strong> ${e.location}</p>` : ""}
       ${e.quote ? `<p><em>${e.quote}</em></p>` : ""}
       ${e.drops ? `<p><strong>Drops:</strong> ${e.drops}</p>` : ""}
