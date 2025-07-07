@@ -1,6 +1,4 @@
-/* auth.css */
-
-/* Solo afecta login y registro */
+/* Login y registro */
 .auth-layout {
   height: 100vh;
   margin: 0;
@@ -13,7 +11,7 @@
 
 /* Tarjeta de formulario */
 .formulario {
-  max-width: 380px; /* más angosto que antes */
+  max-width: 380px; 
   width: 100%;
   background: #fffefc;
   border: 1px solid #ddd;
@@ -25,7 +23,7 @@
 /* Campos del formulario */
 .formulario input {
   width: 100%;
-  padding: 6px 2px; /* menos alto */
+  padding: 6px 2px; 
   margin-bottom: 12px;
   font-size: 15px;
 }

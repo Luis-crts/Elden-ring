@@ -1,10 +1,15 @@
 import mysql.connector
+import os
+from dotenv import load_dotenv
+
+# Cargar variables del archivo .env
+load_dotenv()
 
 def get_connection():
     return mysql.connector.connect(
-        host="database-3.ch0aakoqo1e3.us-east-1.rds.amazonaws.com",
-        user="admin",
-        password="asdfmovie",        
-        database="eldenring",
-        port=3306
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME"),
+        port=int(os.getenv("DB_PORT"))
     )
