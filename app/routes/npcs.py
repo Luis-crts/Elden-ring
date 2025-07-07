@@ -21,7 +21,7 @@ def importar_npcs():
             npc.get("id"),
             npc.get("name"),
             npc.get("image"),
-            npc.get("description"),
+            npc.get("description") if npc.get("description") != "Sin descripción disponible." else None,
             npc.get("quote"),
             npc.get("location")
         ))
