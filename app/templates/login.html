@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Iniciar sesión - Elden Ring</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
-
+  <meta charset="UTF-8">
+  <title>Iniciar sesión - Elden Ring</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 </head>
 <body class="auth-layout">
-    <div class="formulario">
-        <h2>Iniciar sesión</h2>
-        <form method="POST" action="{{ url_for('auth.login') }}">
-            <label for="correo">Correo electrónico:</label>
-            <input type="email" id="correo" name="correo" placeholder="Valentina@gmail.com" required>
 
-            <label for="contraseña">Contraseña:</label>
-            <input type="password" id="contraseña" name="contraseña" placeholder="12345678" required>
+  <div class="formulario">
+    <h2>Iniciar sesión</h2>
 
-            <button type="submit">Entrar</button>
-        </form>
+    <form method="POST" action="{{ url_for('auth.login') }}">
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" id="correo" name="correo" placeholder="Valentina@gmail.com" required>
 
-        <p>¿No tienes cuenta? <a href="{{ url_for('auth.registro') }}">Regístrate</a></p>
+      <label for="contraseña">Contraseña:</label>
+      <input type="password" id="contraseña" name="contraseña" placeholder="12345678" required>
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul class="mensajes">
-                    {% for msg in messages %}
-                        <li>{{ msg }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-    </div>
-</body class="auth-layout">
+      <button type="submit">Entrar</button>
+    </form>
+
+    <p>¿No tienes cuenta? <a href="{{ url_for('auth.registro') }}">Regístrate</a></p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="mensajes">
+          {% for category, msg in messages %}
+            <li class="{{ category }}">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+</body>
 </html>

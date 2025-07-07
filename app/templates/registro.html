@@ -23,15 +23,16 @@
 
     <p>¿Ya tienes cuenta? <a href="{{ url_for('auth.login_form') }}">Inicia sesión</a></p>
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <ul class="mensajes">
-          {% for msg in messages %}
-            <li>{{ msg }}</li>
+          {% for category, msg in messages %}
+            <li class="{{ category }}">{{ msg }}</li>
           {% endfor %}
         </ul>
       {% endif %}
     {% endwith %}
+    
   </div>
 </body>
 </html>

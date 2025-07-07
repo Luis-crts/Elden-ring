@@ -46,11 +46,21 @@
   cursor: pointer;
 }
 
-/* Mensajes de error */
+/* mensajes erros y exitos */
 .mensajes {
   margin-top: 10px;
-  color: red;
   font-size: 14px;
+  list-style: none;
+  padding-left: 0;
 }
+
+.mensajes .error {
+  color: red;
+}
+
+.mensajes .exito {
+  color: black;
+}
+ 
 
 

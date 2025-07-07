@@ -23,9 +23,8 @@ def login():
     if user and check_password_hash(user['contraseña'], contraseña):
         session['usuario_id'] = user['id']
         return redirect(url_for('home.dashboard'))
-
     else:
-        flash("Correo o contraseña incorrectos")
+        flash("Correo o contraseña incorrectos", "error") 
         return redirect(url_for('auth.login_form'))
 
 @auth_bp.route('/registro', methods=['GET', 'POST'])
@@ -36,7 +35,7 @@ def registro():
         repetir = request.form['repetir']
 
         if contraseña != repetir:
-            flash("Las contraseñas no coinciden")
+            flash("Las contraseñas no coinciden", "error")  
             return redirect(url_for('auth.registro'))
 
         hash_pass = generate_password_hash(contraseña)
@@ -47,13 +46,13 @@ def registro():
             cursor.execute("INSERT INTO usuarios (correo, contraseña) VALUES (%s, %s)", (correo, hash_pass))
             conn.commit()
         except:
-            flash("El correo ya está registrado")
+            flash("El correo ya está registrado", "error")  
             return redirect(url_for('auth.registro'))
         finally:
             cursor.close()
             conn.close()
 
-        flash("Registrado correctamente, ahora puedes iniciar sesión")
+        flash("Registrado correctamente, ahora puedes iniciar sesión", "exito")  
         return redirect(url_for('auth.login_form'))
 
     return render_template('registro.html')
