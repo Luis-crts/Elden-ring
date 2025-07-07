@@ -54,11 +54,11 @@
   padding-left: 0;
 }
 
-.mensajes .error {
+.mensajes li.error {
   color: red;
 }
 
-.mensajes .exito {
+.mensajes li.exito {
   color: black;
 }
  
